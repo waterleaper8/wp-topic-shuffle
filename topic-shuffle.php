@@ -401,12 +401,10 @@ function shuffle_api()
 function check_ng($divided, $ngcombos)
 {
   foreach ($divided as $a) {
-    asort($a);
+    sort($a);
     $joined_a = implode($a);
     foreach ($ngcombos as $ngcombo) {
-      asort($ngcombo);
-      $joined_ngcombo = implode($ngcombo);
-      if ($joined_a == $joined_ngcombo) {
+      if ($joined_a == $ngcombo) {
         return true;
       }
     }
@@ -417,16 +415,21 @@ function shuffle_api_test()
 {
   // 連想配列用意
   $names = get_names_array();
-  $ngcombos = get_ngcombos_array();
   shuffle($names);
   $divided = array_divide($names, 3);
+  $ngcombos = get_ngcombos_array();
+  while (check_ng($divided, $ngcombos)) {
+    $names = get_names_array();
+    shuffle($names);
+    $divided = array_divide($names, 3);
+  }
 
-  // foreach ($divided as $a) {
-  //   foreach ($a as $n) {
-  //     echo $n;
-  //   }
-  //   echo '<br>';
-  // }
+  foreach ($divided as $a) {
+    foreach ($a as $n) {
+      echo $n;
+    }
+    echo '<br>';
+  }
 }
 function array_divide($array, $division)
 {
@@ -489,7 +492,7 @@ function topic_shuffle_page_contents()
   //---------------------------------
   // HTML表示
   //---------------------------------
-  shuffle_api_test();
+  // shuffle_api_test();
   echo <<<EOF
     <div class="wrap">
       <style>
