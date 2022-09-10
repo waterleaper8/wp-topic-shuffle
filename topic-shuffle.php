@@ -486,6 +486,40 @@ function array_divide($array, $division)
 
   return $ret;
 }
+function topic_shuffle_init_data()
+{
+  global $wpdb;
+  $table_name = $wpdb->prefix . 'topic_names';
+  $table_name2 = $wpdb->prefix . 'topic_ngcombos';
+
+  delete_option('topic_shuffle_version');
+  $sql = "DROP TABLE {$table_name};";
+  $sql2 = "DROP TABLE {$table_name2};";
+  $wpdb->query($sql2);
+  $wpdb->query($sql);
+
+  $charset_collate = $wpdb->get_charset_collate();
+  $sql3 = "CREATE TABLE $table_name (
+              id mediumint(9) NOT NULL AUTO_INCREMENT,
+              name varchar(16) NOT NULL,
+              UNIQUE KEY id (id),
+              PRIMARY KEY (name)
+              )
+              {$charset_collate}, ENGINE=InnoDB;";
+
+  $sql4 = "CREATE TABLE $table_name2 (
+              id mediumint(9) NOT NULL AUTO_INCREMENT,
+              name1 varchar(16) NOT NULL,
+              name2 varchar(16) NOT NULL,
+              UNIQUE KEY id (id),
+              FOREIGN KEY (name1) REFERENCES wp_topic_names(name),
+              FOREIGN KEY (name2) REFERENCES wp_topic_names(name)
+              )
+              {$charset_collate}, ENGINE=InnoDB;";
+
+  $wpdb->query($sql3);
+  $wpdb->query($sql4);
+}
 
 //=================================================
 // メインメニューページ内容の表示・更新処理
@@ -500,6 +534,8 @@ function topic_shuffle_page_contents()
       echo  '<p style="color:red;">※同じ名前は追加できません。</p>';
     } else if (!empty($_POST['name'])) {
       add_name($_POST['name']);
+    } else if (isset($_POST['delete_db'])) {
+      topic_shuffle_init_data();
     } else if (isset($_POST['delete'])) {
       delete_name($_POST['id']);
     } else if (isset($_POST['ng-delete'])) {
@@ -543,7 +579,17 @@ function topic_shuffle_page_contents()
           border-radius: 6px;
           transition: opacity .3s;
         }
+        .btn-red {
+          color: white;
+          background-color: #f04949;
+          padding: 6px 10px;
+          border-radius: 6px;
+          transition: opacity .3s;
+        }
         .btn-blue:hover {
+          opacity: 0.7;
+        }
+        .btn-red:hover {
           opacity: 0.7;
         }
         table {
@@ -624,6 +670,14 @@ function topic_shuffle_page_contents()
   EOF;
   echo do_shortcode('[NGCOMBOS-SHOW]');
   echo <<<EOF
+        </tbody>
+      </table>
+      <p style="margin-top: 50px;">
+        <form method="post">
+          <input type="hidden" name="delete_db">
+          <button type="submit" class="btn-red">初期化（設定を全て削除）</button>
+        </form>
+      </p>
     </div>
   EOF;
 }
