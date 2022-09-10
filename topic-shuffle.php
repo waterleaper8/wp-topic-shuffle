@@ -426,7 +426,7 @@ function shuffle_api_test()
   $stopperCount = 0;
   while (check_ng($divided, $ngcombos)) {
     if ($stopperCount > 500) {
-      return;
+      return false;
     }
     $names = get_names_array();
     shuffle($names);
@@ -440,6 +440,26 @@ function shuffle_api_test()
     }
     echo '<br>';
   }
+}
+function shuffle_api_test_before_add($new_ngcombo)
+{
+  // 連想配列用意
+  $names = get_names_array();
+  shuffle($names);
+  $divided = array_divide($names, 3);
+  $ngcombos = get_ngcombos_array();
+  array_push($ngcombos, $new_ngcombo);
+  $stopperCount = 0;
+  while (check_ng($divided, $ngcombos)) {
+    if ($stopperCount > 500) {
+      return false;
+    }
+    $names = get_names_array();
+    shuffle($names);
+    $divided = array_divide($names, 3);
+    $stopperCount++;
+  }
+  return true;
 }
 function array_divide($array, $division)
 {
@@ -488,12 +508,16 @@ function topic_shuffle_page_contents()
       $_arr = array($_POST['ng-name1'], $_POST['ng-name2']);
       asort($_arr);
       $ngcombo = implode($_arr);
-      if (in_array($ngcombo, $ngcombos)) {
-        echo '<p style="color:red;">※同じ組み合わせは追加できません。</p>';
-      } else if ($_POST['ng-name1'] == $_POST['ng-name2']) {
-        echo '<p style="color:red;">※同じ名前を組み合わせることはできません。</p>';
+      if (shuffle_api_test_before_add($ngcombo)) {
+        if (in_array($ngcombo, $ngcombos)) {
+          echo '<p style="color:red;">※同じ組み合わせは追加できません。</p>';
+        } else if ($_POST['ng-name1'] == $_POST['ng-name2']) {
+          echo '<p style="color:red;">※同じ名前を組み合わせることはできません。</p>';
+        } else {
+          add_ngcombos($_POST['ng-name1'], $_POST['ng-name2']);
+        }
       } else {
-        add_ngcombos($_POST['ng-name1'], $_POST['ng-name2']);
+        echo '<p style="color:red;">※この組み合わせを追加すると班分けできなくなります。</p>';
       }
     } else {
       header("Location: " . nowUrl());
