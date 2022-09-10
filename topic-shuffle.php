@@ -33,6 +33,20 @@ add_action('admin_menu', function () {
   );
 });
 
+/* ================================ *
+  WP REST APIのオリジナルエンドポイント追加
+ * ================================ */
+function add_rest_original_endpoint()
+{
+
+  //エンドポイントを登録
+  register_rest_route('api', '/topic_shuffle', array(
+    'methods' => 'GET',
+    //エンドポイントにアクセスした際に実行される関数
+    'callback' => 'shuffle_api',
+  ));
+}
+
 //実行するよ！
 $topic_shuffleObj = new Topic_Shuffle();
 
@@ -55,6 +69,7 @@ class Topic_Shuffle
     register_activation_hook(__FILE__, array($this, 'topic_shuffle_install_data')); //プラグイン有効化時にDB初期化
     // register_deactivation_hook(__FILE__, array($this, 'topic_shuffle_delete_data')); //プラグイン停止時に実行する関数を登録
 
+    add_action('rest_api_init', 'add_rest_original_endpoint');
     add_action('plugins_loaded', array($this, 'myplugin_update_db_check')); //プラグイン更新時のDB更新チェック
     add_shortcode("NAMES-SHOW", array($this, 'names_start'));
     add_shortcode("NGCOMBOS-SHOW", array($this, 'ngcombos_start'));
@@ -368,6 +383,76 @@ function setting_pages($val)
 //=================================================
 // シャッフル機能
 //=================================================
+function shuffle_api()
+{
+  // 連想配列用意
+  $names = get_names_array();
+  shuffle($names);
+  $divided = array_divide($names, 3);
+  $ngcombos = get_ngcombos_array();
+  while (check_ng($divided, $ngcombos)) {
+    $names = get_names_array();
+    shuffle($names);
+    $divided = array_divide($names, 3);
+  }
+
+  echo json_encode($divided);
+}
+function check_ng($divided, $ngcombos)
+{
+  foreach ($divided as $a) {
+    asort($a);
+    $joined_a = implode($a);
+    foreach ($ngcombos as $ngcombo) {
+      asort($ngcombo);
+      $joined_ngcombo = implode($ngcombo);
+      if ($joined_a == $joined_ngcombo) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+function shuffle_api_test()
+{
+  // 連想配列用意
+  $names = get_names_array();
+  $ngcombos = get_ngcombos_array();
+  shuffle($names);
+  $divided = array_divide($names, 3);
+
+  // foreach ($divided as $a) {
+  //   foreach ($a as $n) {
+  //     echo $n;
+  //   }
+  //   echo '<br>';
+  // }
+}
+function array_divide($array, $division)
+{
+  $base_count = floor(count($array) / $division); // 部分配列1個あたりの要素数
+  $remainder  = count($array) % $division;        // 余りになる要素数
+
+  $ret = array();
+  $offset = 0;
+  for ($i = 0; $i < $division; $i++) {
+    /*
+       * 余りの要素がある場合は、
+       * 先頭の部分配列に1個ずつまぶしていく
+       */
+    if (empty($remainder)) {
+      $length = $base_count;
+    } else {
+      $length = $base_count + 1;
+      $remainder--;
+    }
+    $ret[] = array_slice($array, $offset, $length);
+
+    $offset += $length;
+  }
+
+  return $ret;
+}
 
 //=================================================
 // メインメニューページ内容の表示・更新処理
@@ -404,6 +489,7 @@ function topic_shuffle_page_contents()
   //---------------------------------
   // HTML表示
   //---------------------------------
+  shuffle_api_test();
   echo <<<EOF
     <div class="wrap">
       <style>
@@ -412,14 +498,16 @@ function topic_shuffle_page_contents()
           border-spacing: 0px 0px;
         }
         td, th {
+          background-color: white;
           padding: 3px 6px;
+          color: #343434;
         }
         table, td, th {
           border: 1px #969696 solid;
         }
       </style>
       <h1 style="font-weight: bold;">TopicShuffle</h1>
-      <a href="/shuffle">トピック班分けページへ</a>
+      <h2><a href="/shuffle" target="_blank" rel="noopener">トピック班分けページへ</a></h2>
       <p>
         トピック班分けアプリの管理ページです。
       </p>

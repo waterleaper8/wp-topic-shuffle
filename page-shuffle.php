@@ -238,7 +238,6 @@
     }
   </style>
 </head>
-
 <div id="overlay">
   <div class="kuji-box"></div>
 </div>
@@ -248,7 +247,7 @@
 </h1>
 
 <div class="spacer">
-  <button onclick="reveal_namelist()">シャッフル</button>
+  <button>シャッフル</button>
   <p id="alert">シャッフルに失敗しました</p>
 </div>
 
@@ -269,23 +268,24 @@
 
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <script>
+  let namelistSplited
+  $('button').click(function() {
+    reveal_namelist()
+  });
+
   function reveal_namelist() {
-    const endpoint =
-      "https://script.google.com/a/macros/atgp-jobtra.jp/s/AKfycbxSSpxxvZKRDcRNwQ8dKcxTXlUqwzo8-WydNQTUfEt4dHrAcZBDoS1PuPeVWtG1yXA1rA/exec";
+    const endpoint = "<?php echo esc_url(home_url()) . '/wp-json/api/topic_shuffle' ?>";
     let namelistSplited;
     $.ajax({
         type: "GET",
         url: endpoint,
-        dataType: "jsonp",
-        data: {
-          text: "hoge",
-        },
+        dataType: "json",
       })
       .done((out) => {
         if (alert.classList.contains("show")) {
           alert.classList.remove("show");
         }
-        namelistSplited = out.data;
+        namelistSplited = out;
 
         overlay.style.display = "flex";
         document.body.style.overflow = "visible";
@@ -297,9 +297,9 @@
           overlay.classList.add("fadeout");
 
           const areas = document.querySelectorAll(".area");
-          areas[0].querySelector("textarea").value = namelistSplited[0];
-          areas[1].querySelector("textarea").value = namelistSplited[1];
-          areas[2].querySelector("textarea").value = namelistSplited[2];
+          areas[0].querySelector("textarea").value = namelistSplited[0].join('\n');
+          areas[1].querySelector("textarea").value = namelistSplited[1].join('\n');
+          areas[2].querySelector("textarea").value = namelistSplited[2].join('\n');
         }, 3000);
       })
       .fail(() => {
@@ -309,8 +309,6 @@
   }
 
   let alert = document.getElementById("alert");
-
-  function getNamelistSplited() {}
 </script>
 <?php wp_footer(); ?>
 
