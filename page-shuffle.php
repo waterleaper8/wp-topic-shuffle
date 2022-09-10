@@ -105,7 +105,7 @@
     .kuji-box {
       width: 200px;
       height: 200px;
-      background-image: url(../assets/kujibiki_box.png);
+      background-image: url(<?php echo get_template_directory_uri() . '/assets/kujibiki_box.png'; ?>);
       background-size: cover;
       animation-name: rotateBox;
       animation-duration: 1.5s;
@@ -128,7 +128,7 @@
     }
 
     .kuji-man {
-      background-image: url(../assets/game_kuji_man.png);
+      background-image: url(<?php echo get_template_directory_uri() . '/assets/game_kuji_man.png'; ?>);
       background-size: cover;
       width: 200px;
       height: 200px;

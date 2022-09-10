@@ -140,13 +140,16 @@ class Topic_Shuffle
   }
   // 名簿管理機能 ここまで =====================================================
 
-
   //DBの作成 ※プラグイン有効時
   function topic_shuffle_install()
   {
     $plugin_dir = plugin_dir_path(__FILE__) . '/page-shuffle.php';
     $theme_dir = get_stylesheet_directory() . '/page-shuffle.php';
     copy($plugin_dir, $theme_dir);
+    $asset1 = plugin_dir_path(__FILE__) . '/assets/game_kuji_man.png';
+    $asset2 = plugin_dir_path(__FILE__) . '/assets/kujibiki_box.png';
+    copy($asset1, get_stylesheet_directory() . '/assets/game_kuji_man.png');
+    copy($asset2, get_stylesheet_directory() . '/assets/kujibiki_box.png');
     create_pages_and_setting();
 
     global $wpdb;
