@@ -581,7 +581,7 @@ function topic_shuffle_page_contents()
       <h3>名前リスト</h3>
       <form method="post" class="name-input-wrapper">
         <input type="text" id="name" name="name" required maxlength="16" size="16">
-        <button type="submit" class="btn-blue">名前を追加</button>
+        <button type="submit" class="btn-blue">＋名前を追加</button>
       </form>
       <table>
         <thead>
@@ -609,7 +609,7 @@ function topic_shuffle_page_contents()
   echo do_shortcode('[NAMES-OPTION-SHOW]');
   echo <<<EOF
         </select>
-        <button type="submit" class="btn-blue">組み合わせを追加</button>
+        <button type="submit" class="btn-blue">＋組み合わせを追加</button>
       </form>
       <table>
         <thead>
