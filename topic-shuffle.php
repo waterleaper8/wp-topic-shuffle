@@ -325,7 +325,7 @@ function get_ngcombos_array()
     array_push($arr2, $row->name1);
     array_push($arr2, $row->name2);
     asort($arr2);
-    array_push($arr, implode($arr2));
+    array_push($arr, $arr2);
   }
   return $arr;
 }
@@ -405,12 +405,16 @@ function shuffle_api()
 }
 function check_ng($divided, $ngcombos)
 {
-  foreach ($divided as $a) {
-    sort($a);
-    $joined_a = implode($a);
+  foreach ($divided as $n) {
     foreach ($ngcombos as $ngcombo) {
-      if ($joined_a == $ngcombo) {
-        return true;
+      $count = 0;
+      foreach ($ngcombo as $ng) {
+        if (in_array($ng, $n)) {
+          $count++;
+          if ($count >= 2) {
+            return true;
+          }
+        }
       }
     }
   }
@@ -544,8 +548,8 @@ function topic_shuffle_page_contents()
       $_arr = array($_POST['ng-name1'], $_POST['ng-name2']);
       asort($_arr);
       $ngcombo = implode($_arr);
-      if (shuffle_api_test_before_add($ngcombo)) {
-        if (in_array($ngcombo, $ngcombos)) {
+      if (shuffle_api_test_before_add($_arr)) {
+        if (in_array($_arr, $ngcombos)) {
           echo '<p style="color:red;">※同じ組み合わせは追加できません。</p>';
         } else if ($_POST['ng-name1'] == $_POST['ng-name2']) {
           echo '<p style="color:red;">※同じ名前を組み合わせることはできません。</p>';
