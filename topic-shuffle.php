@@ -108,7 +108,7 @@ class Topic_Shuffle
             <td>{$row->id}</td>
             <td>{$row->name}</td>
             <td>
-                <button type='submit' name='delete'>削除する</button>
+                <button type='submit' name='delete'>×</button>
             </td>
           <tr>
         </form>
@@ -146,7 +146,7 @@ class Topic_Shuffle
             <td>{$row->name1}</td>
             <td>{$row->name2}</td>
             <td>
-                <button type='submit' name='ng-delete'>削除する</button>
+                <button type='submit' name='ng-delete'>×</button>
             </td>
           <tr>
         </form>
@@ -530,14 +530,44 @@ function topic_shuffle_page_contents()
   echo <<<EOF
     <div class="wrap">
       <style>
+        button{
+          border: none;
+          cursor: pointer;
+          outline: none;
+          appearance: none;
+        }
+        .btn-blue {
+          color: white;
+          background-color: #05A4DE;
+          padding: 6px 10px;
+          border-radius: 6px;
+          transition: opacity .3s;
+        }
+        .btn-blue:hover {
+          opacity: 0.7;
+        }
         table {
           margin-top: 10px;
           border-spacing: 0px 0px;
         }
         td, th {
           background-color: white;
-          padding: 3px 6px;
+          padding: 5px 20px;
           color: #343434;
+        }
+        tr td:last-child {
+          text-align: center;
+          width: 50px;
+        }
+        tr td:last-child button {
+          background-color: #f05959;
+          border-radius: 9999px;
+          color: white;
+          padding: 3px 7px 4px;
+          transition: opacity .3s;
+        }
+        tr td:last-child button:hover {
+          opacity: 0.7;
         }
         table, td, th {
           border: 1px #969696 solid;
@@ -551,7 +581,7 @@ function topic_shuffle_page_contents()
       <h3>名前リスト</h3>
       <form method="post" class="name-input-wrapper">
         <input type="text" id="name" name="name" required maxlength="16" size="16">
-        <button type="submit">名前を追加</button>
+        <button type="submit" class="btn-blue">名前を追加</button>
       </form>
       <table>
         <thead>
@@ -579,7 +609,7 @@ function topic_shuffle_page_contents()
   echo do_shortcode('[NAMES-OPTION-SHOW]');
   echo <<<EOF
         </select>
-        <button type="submit">組み合わせを追加</button>
+        <button type="submit" class="btn-blue">組み合わせを追加</button>
       </form>
       <table>
         <thead>
