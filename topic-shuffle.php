@@ -390,10 +390,15 @@ function shuffle_api()
   shuffle($names);
   $divided = array_divide($names, 3);
   $ngcombos = get_ngcombos_array();
+  $stopperCount = 0;
   while (check_ng($divided, $ngcombos)) {
+    if ($stopperCount > 500) {
+      return;
+    }
     $names = get_names_array();
     shuffle($names);
     $divided = array_divide($names, 3);
+    $stopperCount++;
   }
 
   echo json_encode($divided);
@@ -418,10 +423,15 @@ function shuffle_api_test()
   shuffle($names);
   $divided = array_divide($names, 3);
   $ngcombos = get_ngcombos_array();
+  $stopperCount = 0;
   while (check_ng($divided, $ngcombos)) {
+    if ($stopperCount > 500) {
+      return;
+    }
     $names = get_names_array();
     shuffle($names);
     $divided = array_divide($names, 3);
+    $stopperCount++;
   }
 
   foreach ($divided as $a) {

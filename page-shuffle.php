@@ -280,6 +280,18 @@
         type: "GET",
         url: endpoint,
         dataType: "json",
+        timeout: 5000,
+        error: function(xhr, textStatus, errorThrown) { // エラーと判定された場合
+          if (textStatus == "timeout") {
+            // リクエストタイムアウトの場合の処理
+            alert.classList.add("show");
+            namelistSplited = "error";
+          } else {
+            // その他のエラーの処理
+            alert.classList.add("show");
+            namelistSplited = "error";
+          }
+        },
       })
       .done((out) => {
         if (alert.classList.contains("show")) {
