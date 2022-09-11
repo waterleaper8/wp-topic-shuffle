@@ -562,129 +562,136 @@ function topic_shuffle_page_contents()
       header("Location: " . nowUrl());
     }
   }
+?>
+  <?php
   //---------------------------------
   // HTML表示
   //---------------------------------
   // shuffle_api_test_echo();
-  echo <<<EOF
-    <div class="wrap">
-      <style>
-        button{
-          border: none;
-          cursor: pointer;
-          outline: none;
-          appearance: none;
-        }
-        .btn-blue {
-          color: white;
-          background-color: #05A4DE;
-          padding: 6px 10px;
-          border-radius: 6px;
-          transition: opacity .3s;
-        }
-        .btn-red {
-          color: white;
-          background-color: #f04949;
-          padding: 6px 10px;
-          border-radius: 6px;
-          transition: opacity .3s;
-        }
-        .btn-blue:hover {
-          opacity: 0.7;
-        }
-        .btn-red:hover {
-          opacity: 0.7;
-        }
-        table {
-          margin-top: 10px;
-          border-spacing: 0px 0px;
-        }
-        td, th {
-          background-color: white;
-          padding: 5px 20px;
-          color: #343434;
-        }
-        tr td:last-child {
-          text-align: center;
-          width: 50px;
-        }
-        tr td:last-child button {
-          background-color: #f05959;
-          border-radius: 9999px;
-          color: white;
-          padding: 2px 6px 3px;
-          transition: opacity .3s;
-        }
-        tr td:last-child button:hover {
-          opacity: 0.7;
-        }
-        table, td, th {
-          border: 1px #969696 solid;
-        }
-      </style>
-      <h1 style="font-weight: bold;">TopicShuffle</h1>
-      <h2><a href="/shuffle" target="_blank" rel="noopener">トピック班分けページへ</a></h2>
-      <p>
-        トピック班分けアプリの管理ページです。
-      </p>
-      <h3>名前リスト</h3>
-      <form method="post" class="name-input-wrapper">
-        <input type="text" id="name" name="name" required maxlength="16" size="16">
-        <button type="submit" class="btn-blue">＋名前を追加</button>
-      </form>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>名前</th>
-            <th>削除</th>
-          </tr>
-        </thead>
-        <tbody>
-  EOF;
-  echo do_shortcode('[NAMES-SHOW]');
-  echo <<<EOF
-        </tbody>
-      </table>
-      <h3>NG組み合わせリスト</h3>
-      <form method="post" class="ngcombos-input-wrapper">
-        <select type="text" id="ng-name1" name="ng-name1" required>
-          <option value="" selected>選択してください</option>
-  EOF;
-  echo do_shortcode('[NAMES-OPTION-SHOW]');
-  echo <<<EOF
-        </select>
-        <select type="text" id="ng-name2" name="ng-name2" required>
-          <option value="" selected>選択してください</option>
-  EOF;
-  echo do_shortcode('[NAMES-OPTION-SHOW]');
-  echo <<<EOF
-        </select>
-        <button type="submit" class="btn-blue">＋組み合わせを追加</button>
-      </form>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>名前1</th>
-            <th>名前2</th>
-            <th>削除</th>
-          </tr>
-        </thead>
-        <tbody>
-  EOF;
-  echo do_shortcode('[NGCOMBOS-SHOW]');
-  echo <<<EOF
-        </tbody>
-      </table>
-      <p style="margin-top: 50px;">
-        <form method="post">
-          <input type="hidden" name="delete_db">
-          <button type="submit" class="btn-red">初期化（設定を全て削除）</button>
-        </form>
-      </p>
-    </div>
-  EOF;
+  ?>
+  <div class="wrap">
+    <style>
+      button {
+        border: none;
+        cursor: pointer;
+        outline: none;
+        appearance: none;
+      }
+
+      .btn-blue {
+        color: white;
+        background-color: #05A4DE;
+        padding: 6px 10px;
+        border-radius: 6px;
+        transition: opacity .3s;
+      }
+
+      .btn-red {
+        color: white;
+        background-color: #f04949;
+        padding: 6px 10px;
+        border-radius: 6px;
+        transition: opacity .3s;
+      }
+
+      .btn-blue:hover {
+        opacity: 0.7;
+      }
+
+      .btn-red:hover {
+        opacity: 0.7;
+      }
+
+      table {
+        margin-top: 10px;
+        border-spacing: 0px 0px;
+      }
+
+      td,
+      th {
+        background-color: white;
+        padding: 5px 20px;
+        color: #343434;
+      }
+
+      tr td:last-child {
+        text-align: center;
+        width: 50px;
+      }
+
+      tr td:last-child button {
+        background-color: #f05959;
+        border-radius: 9999px;
+        color: white;
+        padding: 2px 6px 3px;
+        transition: opacity .3s;
+      }
+
+      tr td:last-child button:hover {
+        opacity: 0.7;
+      }
+
+      table,
+      td,
+      th {
+        border: 1px #969696 solid;
+      }
+    </style>
+    <h1 style="font-weight: bold;">TopicShuffle</h1>
+    <h2><a href="/shuffle" target="_blank" rel="noopener">トピック班分けページへ</a></h2>
+    <p>
+      トピック班分けアプリの管理ページです。
+    </p>
+    <h3>名前リスト</h3>
+    <form method="post" class="name-input-wrapper">
+      <input type="text" id="name" name="name" required maxlength="16" size="16">
+      <button type="submit" class="btn-blue">＋名前を追加</button>
+    </form>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>名前</th>
+          <th>削除</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php echo do_shortcode('[NAMES-SHOW]'); ?>
+      </tbody>
+    </table>
+    <h3>NG組み合わせリスト</h3>
+    <form method="post" class="ngcombos-input-wrapper">
+      <select type="text" id="ng-name1" name="ng-name1" required>
+        <option value="" selected>選択してください</option>
+        <?php echo do_shortcode('[NAMES-OPTION-SHOW]'); ?>
+      </select>
+      <select type="text" id="ng-name2" name="ng-name2" required>
+        <option value="" selected>選択してください</option>
+        <?php echo do_shortcode('[NAMES-OPTION-SHOW]'); ?>
+      </select>
+      <button type="submit" class="btn-blue">＋組み合わせを追加</button>
+    </form>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>名前1</th>
+          <th>名前2</th>
+          <th>削除</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php echo do_shortcode('[NGCOMBOS-SHOW]'); ?>
+      </tbody>
+    </table>
+    <p style="margin-top: 50px;">
+    <form method="post">
+      <input type="hidden" name="delete_db">
+      <button type="submit" class="btn-red">初期化（設定を全て削除）</button>
+    </form>
+    </p>
+  </div>
+<?php
 }
 
 if (!defined('ABSPATH')) exit;
