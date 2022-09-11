@@ -650,11 +650,13 @@ function topic_shuffle_page_contents()
       <h3>NG組み合わせリスト</h3>
       <form method="post" class="ngcombos-input-wrapper">
         <select type="text" id="ng-name1" name="ng-name1" required>
+          <option value="" selected>選択してください</option>
   EOF;
   echo do_shortcode('[NAMES-OPTION-SHOW]');
   echo <<<EOF
         </select>
         <select type="text" id="ng-name2" name="ng-name2" required>
+          <option value="" selected>選択してください</option>
   EOF;
   echo do_shortcode('[NAMES-OPTION-SHOW]');
   echo <<<EOF
