@@ -70,7 +70,7 @@ class Topic_Shuffle
     // register_deactivation_hook(__FILE__, array($this, 'topic_shuffle_delete_data')); //プラグイン停止時に実行する関数を登録
 
     add_action('rest_api_init', 'add_rest_original_endpoint');
-    add_action('plugins_loaded', array($this, 'myplugin_update_db_check')); //プラグイン更新時のDB更新チェック
+    // add_action('plugins_loaded', array($this, 'myplugin_update_db_check')); //プラグイン更新時のDB更新チェック
     add_shortcode("NAMES-SHOW", array($this, 'names_start'));
     add_shortcode("NGCOMBOS-SHOW", array($this, 'ngcombos_start'));
     add_shortcode("NAMES-OPTION-SHOW", array($this, 'names_option_start'));
@@ -218,12 +218,12 @@ class Topic_Shuffle
 
 
   //DB更新チェック ※プラグイン更新
-  function myplugin_update_db_check()
-  {
-    if (get_site_option('topic_shuffle_version') != $topic_shuffle_version) {
-      $this->topic_shuffle_install();
-    }
-  }
+  // function myplugin_update_db_check()
+  // {
+  //   if (get_site_option('topic_shuffle_version') != $topic_shuffle_version) {
+  //     $this->topic_shuffle_install();
+  //   }
+  // }
 
 
   //DBの削除 ※プラグイン停止時
