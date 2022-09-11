@@ -392,7 +392,7 @@ function shuffle_api()
   $ngcombos = get_ngcombos_array();
   $stopperCount = 0;
   while (check_ng($divided, $ngcombos)) {
-    if ($stopperCount > 500) {
+    if ($stopperCount > 5000) {
       return;
     }
     $names = get_names_array();
@@ -420,7 +420,7 @@ function check_ng($divided, $ngcombos)
   }
   return false;
 }
-function shuffle_api_test()
+function shuffle_api_test_echo()
 {
   // 連想配列用意
   $names = get_names_array();
@@ -429,7 +429,7 @@ function shuffle_api_test()
   $ngcombos = get_ngcombos_array();
   $stopperCount = 0;
   while (check_ng($divided, $ngcombos)) {
-    if ($stopperCount > 500) {
+    if ($stopperCount > 5000) {
       return false;
     }
     $names = get_names_array();
@@ -455,7 +455,7 @@ function shuffle_api_test_before_add($new_ngcombo)
   array_push($ngcombos, $new_ngcombo);
   $stopperCount = 0;
   while (check_ng($divided, $ngcombos)) {
-    if ($stopperCount > 500) {
+    if ($stopperCount > 5000) {
       return false;
     }
     $names = get_names_array();
@@ -566,7 +566,7 @@ function topic_shuffle_page_contents()
   //---------------------------------
   // HTML表示
   //---------------------------------
-  // shuffle_api_test();
+  // shuffle_api_test_echo();
   echo <<<EOF
     <div class="wrap">
       <style>
