@@ -164,6 +164,7 @@
       border: 1px solid #ccc;
       border-radius: 6px;
       color: #555;
+      resize: vertical;
     }
 
     .desc {
