@@ -306,11 +306,11 @@ function get_names_array()
 
   $sql = "SELECT id,name FROM {$table_name};";
   $results = $wpdb->get_results($sql);
-  $arr = array();
+  $names = array();
   foreach ($results as $row) {
-    array_push($arr, $row->name);
+    array_push($names, $row->name);
   }
-  return $arr;
+  return $names;
 }
 function get_ngcombos_array()
 {
@@ -319,15 +319,15 @@ function get_ngcombos_array()
 
   $sql = "SELECT name1,name2 FROM {$table_name};";
   $results = $wpdb->get_results($sql);
-  $arr = array();
+  $ngcombos = array();
   foreach ($results as $row) {
-    $arr2 = array();
-    array_push($arr2, $row->name1);
-    array_push($arr2, $row->name2);
-    asort($arr2);
-    array_push($arr, $arr2);
+    $ngcombo = array();
+    array_push($ngcombo, $row->name1);
+    array_push($ngcombo, $row->name2);
+    asort($ngcombo);
+    array_push($ngcombos, $ngcombo);
   }
-  return $arr;
+  return $ngcombos;
 }
 function create_pages_and_setting()
 {
@@ -545,11 +545,10 @@ function topic_shuffle_page_contents()
     } else if (isset($_POST['ng-delete'])) {
       delete_ngcombos($_POST['ng-id']);
     } else if (!empty($_POST['ng-name1']) && !empty($_POST['ng-name2'])) {
-      $_arr = array($_POST['ng-name1'], $_POST['ng-name2']);
-      asort($_arr);
-      $ngcombo = implode($_arr);
-      if (shuffle_api_test_before_add($_arr)) {
-        if (in_array($_arr, $ngcombos)) {
+      $ngcombo_new = array($_POST['ng-name1'], $_POST['ng-name2']);
+      asort($ngcombo_new);
+      if (shuffle_api_test_before_add($ngcombo_new)) {
+        if (in_array($ngcombo_new, $ngcombos)) {
           echo '<p style="color:red;">※同じ組み合わせは追加できません。</p>';
         } else if ($_POST['ng-name1'] == $_POST['ng-name2']) {
           echo '<p style="color:red;">※同じ名前を組み合わせることはできません。</p>';
@@ -613,7 +612,7 @@ function topic_shuffle_page_contents()
           background-color: #f05959;
           border-radius: 9999px;
           color: white;
-          padding: 3px 7px 4px;
+          padding: 2px 6px 3px;
           transition: opacity .3s;
         }
         tr td:last-child button:hover {
