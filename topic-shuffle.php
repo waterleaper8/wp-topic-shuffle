@@ -186,8 +186,8 @@ class Topic_Shuffle
                 name1 varchar(16) NOT NULL,
                 name2 varchar(16) NOT NULL,
                 UNIQUE KEY id (id),
-                FOREIGN KEY (name1) REFERENCES wp_topic_names(name),
-                FOREIGN KEY (name2) REFERENCES wp_topic_names(name)
+                FOREIGN KEY (name1) REFERENCES {$table_name},
+                FOREIGN KEY (name2) REFERENCES {$table_name}
                 )
                 {$charset_collate}, ENGINE=InnoDB;";
 
@@ -516,8 +516,8 @@ function topic_shuffle_init_data()
               name1 varchar(16) NOT NULL,
               name2 varchar(16) NOT NULL,
               UNIQUE KEY id (id),
-              FOREIGN KEY (name1) REFERENCES wp_topic_names(name),
-              FOREIGN KEY (name2) REFERENCES wp_topic_names(name)
+              FOREIGN KEY (name1) REFERENCES {$table_name},
+              FOREIGN KEY (name2) REFERENCES {$table_name}
               )
               {$charset_collate}, ENGINE=InnoDB;";
 
