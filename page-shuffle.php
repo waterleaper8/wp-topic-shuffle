@@ -239,12 +239,13 @@
   </style>
 </head>
 
-<body>
-  <?php
-  $user = wp_get_current_user();
-  $current_role = $user->roles[0];
-  if ($current_role) :
-  ?>
+<?php
+$user = wp_get_current_user();
+$current_role = $user->roles[0];
+if ($current_role) :
+?>
+
+  <body>
     <div id="overlay">
       <div class="kuji-box"></div>
     </div>
@@ -329,18 +330,18 @@
 
       let alert = document.getElementById("alert");
     </script>
-  <?php else : ?>
-    <p>
-      ページを表示するには
-      <a style="
+  </body>
+  <?php wp_footer(); ?>
+<?php else : ?>
+  <p>
+    ページを表示するには
+    <a style="
         cursor: pointer;
         color: #88e;
         text-decoration: underline;
         font-weight: bold;" href="<?php echo wp_login_url(); ?>">ログイン</a>
-      してください
-    </p>
-  <?php endif; ?>
-</body>
-<?php wp_footer(); ?>
+    してください
+  </p>
+<?php endif; ?>
 
 <?php if (!defined('ABSPATH')) exit; ?>
