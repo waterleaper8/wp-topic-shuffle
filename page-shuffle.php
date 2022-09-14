@@ -213,7 +213,6 @@
       margin-bottom: 12px;
       padding: 12px 12px 24px;
       border-radius: 12px;
-      width: 300px;
     }
 
     .area:last-child {
@@ -239,106 +238,106 @@
     }
   </style>
 </head>
+
 <body>
   <?php
-    $user = wp_get_current_user();
-    $current_role = $user->roles[0];
-    if($current_role):
+  $user = wp_get_current_user();
+  $current_role = $user->roles[0];
+  if ($current_role) :
   ?>
-  <div id="overlay">
-    <div class="kuji-box"></div>
-  </div>
-  <h1>
-    トピック チーム分け
-    <div class="kuji-man"></div>
-  </h1>
-  
-  <div class="spacer">
-    <button>シャッフル</button>
-    <p id="alert">シャッフルに失敗しました</p>
-  </div>
-  
-  <div class="areas">
-    <div class="area area_a">
-      <h2>A席</h2>
-      <textarea name="list_a" rows="12" cols="18" readonly></textarea><br />
+    <div id="overlay">
+      <div class="kuji-box"></div>
     </div>
-    <div class="area area_b">
-      <h2>B席</h2>
-      <textarea name="list_b" rows="12" cols="18" readonly></textarea><br />
+    <h1>
+      トピック チーム分け
+      <div class="kuji-man"></div>
+    </h1>
+
+    <div class="spacer">
+      <button>シャッフル</button>
+      <p id="alert">シャッフルに失敗しました</p>
     </div>
-    <div class="area area_c">
-      <h2>C席</h2>
-      <textarea name="list_c" rows="12" cols="18" readonly></textarea>
+
+    <div class="areas">
+      <div class="area area_a">
+        <h2>A席</h2>
+        <textarea name="list_a" rows="12" cols="18" readonly></textarea><br />
+      </div>
+      <div class="area area_b">
+        <h2>B席</h2>
+        <textarea name="list_b" rows="12" cols="18" readonly></textarea><br />
+      </div>
+      <div class="area area_c">
+        <h2>C席</h2>
+        <textarea name="list_c" rows="12" cols="18" readonly></textarea>
+      </div>
     </div>
-  </div>
-  
-  <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
-  <script>
-    let namelistSplited
-    $('button').click(function() {
-      reveal_namelist()
-    });
-  
-    function reveal_namelist() {
-      const endpoint = "<?php echo esc_url(home_url()) . '/wp-json/api/topic_shuffle' ?>";
-      let namelistSplited;
-      $.ajax({
-          type: "GET",
-          url: endpoint,
-          dataType: "json",
-          timeout: 5000,
-          error: function(xhr, textStatus, errorThrown) { // エラーと判定された場合
-            if (textStatus == "timeout") {
-              // リクエストタイムアウトの場合の処理
-              alert.classList.add("show");
-              namelistSplited = "error";
-            } else {
-              // その他のエラーの処理
-              alert.classList.add("show");
-              namelistSplited = "error";
+
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+    <script>
+      let namelistSplited
+      $('button').click(function() {
+        reveal_namelist()
+      });
+
+      function reveal_namelist() {
+        const endpoint = "<?php echo esc_url(home_url()) . '/wp-json/api/topic_shuffle' ?>";
+        let namelistSplited;
+        $.ajax({
+            type: "GET",
+            url: endpoint,
+            dataType: "json",
+            timeout: 5000,
+            error: function(xhr, textStatus, errorThrown) { // エラーと判定された場合
+              if (textStatus == "timeout") {
+                // リクエストタイムアウトの場合の処理
+                alert.classList.add("show");
+                namelistSplited = "error";
+              } else {
+                // その他のエラーの処理
+                alert.classList.add("show");
+                namelistSplited = "error";
+              }
+            },
+          })
+          .done((out) => {
+            if (alert.classList.contains("show")) {
+              alert.classList.remove("show");
             }
-          },
-        })
-        .done((out) => {
-          if (alert.classList.contains("show")) {
-            alert.classList.remove("show");
-          }
-          namelistSplited = out;
-  
-          overlay.style.display = "flex";
-          document.body.style.overflow = "visible";
-          overlay.classList.remove("fadeout");
-  
-          setTimeout(() => {
-            document.body.style.overflow = "hidden";
-            overlay.style.display = "none";
-            overlay.classList.add("fadeout");
-  
-            const areas = document.querySelectorAll(".area");
-            areas[0].querySelector("textarea").value = namelistSplited[0].join('\n');
-            areas[1].querySelector("textarea").value = namelistSplited[1].join('\n');
-            areas[2].querySelector("textarea").value = namelistSplited[2].join('\n');
-          }, 3000);
-        })
-        .fail(() => {
-          alert.classList.add("show");
-          namelistSplited = "error";
-        });
-    }
-  
-    let alert = document.getElementById("alert");
-  </script>
-  <?php else: ?>
+            namelistSplited = out;
+
+            overlay.style.display = "flex";
+            document.body.style.overflow = "visible";
+            overlay.classList.remove("fadeout");
+
+            setTimeout(() => {
+              document.body.style.overflow = "hidden";
+              overlay.style.display = "none";
+              overlay.classList.add("fadeout");
+
+              const areas = document.querySelectorAll(".area");
+              areas[0].querySelector("textarea").value = namelistSplited[0].join('\n');
+              areas[1].querySelector("textarea").value = namelistSplited[1].join('\n');
+              areas[2].querySelector("textarea").value = namelistSplited[2].join('\n');
+            }, 3000);
+          })
+          .fail(() => {
+            alert.classList.add("show");
+            namelistSplited = "error";
+          });
+      }
+
+      let alert = document.getElementById("alert");
+    </script>
+  <?php else : ?>
     <p>
       ページを表示するには
       <a style="
         cursor: pointer;
         color: #88e;
         text-decoration: underline;
-        font-weight: bold;"
-      href="<?php echo wp_login_url(); ?>">ログイン</a>
-    してください
+        font-weight: bold;" href="<?php echo wp_login_url(); ?>">ログイン</a>
+      してください
     </p>
   <?php endif; ?>
 </body>
