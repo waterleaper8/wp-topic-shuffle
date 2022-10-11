@@ -211,7 +211,7 @@
       text-align: center;
       margin-right: 24px;
       margin-bottom: 12px;
-      padding: 12px 12px 24px;
+      padding: 12px 24px 24px;
       border-radius: 12px;
     }
 
