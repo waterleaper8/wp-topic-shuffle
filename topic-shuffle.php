@@ -638,7 +638,7 @@ function topic_shuffle_page_contents()
       }
     </style>
     <h1 style="font-weight: bold;">TopicShuffle</h1>
-    <h2><a href="/shuffle" target="_blank" rel="noopener">トピック班分けページへ</a></h2>
+    <h2><a href="<?php echo esc_url(home_url('/shuffle')); ?>" target="_blank" rel="noopener">トピック班分けページへ</a></h2>
     <p>
       トピック班分けアプリの管理ページです。
     </p>
